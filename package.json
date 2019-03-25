@@ -2,6 +2,7 @@
   "name": "FsWatcher",
   "version": "0.0.1",
   "dependencies": {
-    "chokidar": "latest"
+    "chokidar": "latest",
+    "fsevents": "^1.2.7"
   }
 }

@@ -38,11 +38,12 @@ class NodeFsWatcher extends EventEmitter {
   async watch(watchPath) {
     const isExist = fs.existsSync(watchPath)
     const isWatchingDirectory = fs.statSync(watchPath).isDirectory()
-    const initMd5 = await this.fileMd5(watchPath)
+    // const initMd5 = await this.fileMd5(watchPath)
+    const initMd5 = ''
     console.log(
       `Start watching file[${watchPath}], exist[${isExist}], isWatchingDirectory[${isWatchingDirectory}], initMD5 = [${initMd5}]`
     )
-    this.pathToMd5Map.set(watchPath, initMd5)
+    // this.pathToMd5Map.set(watchPath, initMd5)
     var eventDetailList = []
     if (this.pathToEventDetailList.has(watchPath)) {
       eventDetailList = this.pathToEventDetailList.get(watchPath)
@@ -156,40 +157,41 @@ class NodeFsWatcher extends EventEmitter {
   }
 
   async checkFileMd5Changed(filepath) {
-    const isDirectory = fs.statSync(filepath).isDirectory()
-    if (isDirectory) {
-      return true
-    }
-    const prewMd5 = await this.pathToMd5Map.get(filepath)
-    const currMd5 = await this.fileMd5(filepath)
-    const change = prewMd5 !== currMd5
-    console.log(
-      `checkFileMd5Changed filepath = ${filepath} prewMd5 = ${prewMd5} currMd5 = ${currMd5} change = ${change}`
-    )
-    if (change) {
-      this.pathToMd5Map.set(filepath, currMd5)
-    }
-    return change
+    return true
+    // const isDirectory = fs.statSync(filepath).isDirectory()
+    // if (isDirectory) {
+    //   return true
+    // }
+    // const prewMd5 = await this.pathToMd5Map.get(filepath)
+    // const currMd5 = await this.fileMd5(filepath)
+    // const change = prewMd5 !== currMd5
+    // console.log(
+    //   `checkFileMd5Changed filepath = ${filepath} prewMd5 = ${prewMd5} currMd5 = ${currMd5} change = ${change}`
+    // )
+    // if (change) {
+    //   this.pathToMd5Map.set(filepath, currMd5)
+    // }
+    // return change
   }
 
   async fileMd5(filePath) {
-    const BUFFER_SIZE = 8192
-    const crypto = require('crypto')
-    const fd = fs.openSync(filePath, 'r')
-    const hash = crypto.createHash('md5')
-    const buffer = Buffer.alloc(BUFFER_SIZE)
-    try {
-      let bytesRead
-      do {
-        bytesRead = fs.readSync(fd, buffer, 0, BUFFER_SIZE)
-        hash.update(buffer.slice(0, bytesRead))
-      } while (bytesRead === BUFFER_SIZE)
-    } finally {
-      fs.closeSync(fd)
-    }
-    const md5 = hash.digest('hex')
-    console.log(`fileMd5 > ${filePath} > `,md5)
-    return md5
+    // const BUFFER_SIZE = 8192
+    // const crypto = require('crypto')
+    // const fd = fs.openSync(filePath, 'r')
+    // const hash = crypto.createHash('md5')
+    // const buffer = Buffer.alloc(BUFFER_SIZE)
+    // try {
+    //   let bytesRead
+    //   do {
+    //     bytesRead = fs.readSync(fd, buffer, 0, BUFFER_SIZE)
+    //     hash.update(buffer.slice(0, bytesRead))
+    //   } while (bytesRead === BUFFER_SIZE)
+    // } finally {
+    //   fs.closeSync(fd)
+    // }
+    // const md5 = hash.digest('hex')
+    // console.log(`fileMd5 > ${filePath} > `,md5)
+    // return md5
   }
 }
 
